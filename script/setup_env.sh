@@ -36,7 +36,7 @@ cd -;
 
 #SETUP_CORE_DUMP
 ulimit -c unlimited
-systemctl disable apport.service
+#systemctl disable apport.service
 mkdir -p /etc/pos/core
 echo "/etc/pos/core/%E.core" > /proc/sys/kernel/core_pattern
 

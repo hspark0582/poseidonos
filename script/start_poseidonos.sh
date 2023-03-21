@@ -14,6 +14,7 @@ execute_ibofos()
     if [ -f ${ROOT_DIR}/bin/$binary_name ];
     then
         echo "Execute poseidonos"
+        LD_LIBRARY_PATH=/usr/local/lib
         nohup ${ROOT_DIR}/bin/$binary_name > /dev/null 2>&1 &
     else
         echo "No executable poseidonos file"
@@ -39,7 +40,7 @@ wait_started()
     check_started
     while [ $? -eq 0 ];
     do
-        let loop_count=loop_count+1  `2 -`
+        let loop_count=loop_count+1
         echo "Wait poseidonos for $loop_count seconds"
         sleep 1
         if [ $loop_count -gt 300 ];then

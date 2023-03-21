@@ -4,7 +4,7 @@ include(ExternalProject)
 set(SPDK_DEBUG_ENABLE "n" CACHE STRING "Specify enablement of SPDK debug build, y or n")
 set(USE_LOCAL_REPO "n" CACHE STRING "Specify use of local repository, y or n")
 set(ASAN_ENABLE "n" CACHE STRING "Specify enablement of ASAN build, y or n")
-set(NUM_BUILD_CORE "4" CACHE STRING "Specify numboer of cpu core being used for build")
+set(NUM_BUILD_CORE "8" CACHE STRING "Specify numboer of cpu core being used for build")
 #set(LOCAL_REPOSITORY_ADDRESS "example.repo.com" CACHE STRING "Specify address of local repository")
 set(LOCAL_REPO_ADDRESS "https://10.227.30.174:7990" CACHE STRING "Specify address of local repository")
 set(LOCAL_REPO_PROJECT "scm/ibof" CACHE STRING "Specify project name of local repository")
@@ -90,7 +90,7 @@ ExternalProject_Add(air
 # Set DPDK build options
 set(POS_DEP_DPDK "dpdk")
 set(TARGET "x86_64-native-linuxapp-gcc")
-set(EXTRA_CFLAGS "-fPIC -Wno-address-of-packed-member")
+set(EXTRA_CFLAGS "-fPIC")
 
 if (${USE_LOCAL_REPO} STREQUAL "y")
     set(REPO_DPDK "${LOCAL_REPO}/dpdk.git")
@@ -114,7 +114,7 @@ ExternalProject_Add(dpdk
     LOG_MERGED_STDOUTERR ON
     PATCH_COMMAND patch -t -p0 -i ${PROJ_ROOT}/lib/dpdk-20.08.patch
     CONFIGURE_COMMAND "" 
-    BUILD_COMMAND make install MAKE_PAUSE=n T=${TARGET} EXTRA_CFLAGS=${EXTRA_CFLAGS} DESTDIR=. -j 4
+    BUILD_COMMAND make install MAKE_PAUSE=n T=${TARGET} EXTRA_CFLAGS=${EXTRA_CFLAGS} DESTDIR=. -j ${NUM_BUILD_CORE}
     INSTALL_COMMAND "")
 
 # Set FIO build options
